@@ -6,6 +6,8 @@ import '../analytics/analytics_screen.dart';
 import '../inventory/inventory_screen.dart';
 import '../staff/staff_screen.dart';
 
+import '../settings/profile_screen.dart';
+
 class MainShell extends StatefulWidget {
   const MainShell({super.key});
 
@@ -125,27 +127,37 @@ class _MainShellState extends State<MainShell> {
               const Spacer(),
               Padding(
                 padding: const EdgeInsets.all(20.0),
-                child: Row(
-                  children: [
-                    const CircleAvatar(
-                      backgroundColor: AppColors.primaryPurple,
-                      child: Icon(Icons.person, color: Colors.white),
-                    ),
-                    const SizedBox(width: 12),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
+                child: InkWell(
+                  onTap: () {
+                    Navigator.pop(context); // Close drawer
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const ProfileScreen()),
+                    );
+                  },
+                  borderRadius: BorderRadius.circular(12),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
                       children: [
-                        Text('Admin User', style: TextStyle(fontWeight: FontWeight.bold, color: isDarkMode ? AppColors.darkText : AppColors.textDark)),
-                        Text('admin@nexcentauri.ai', style: TextStyle(fontSize: 12, color: isDarkMode ? AppColors.darkTextGrey : AppColors.textGrey)),
+                        const CircleAvatar(
+                          backgroundColor: AppColors.primaryPurple,
+                          child: Icon(Icons.person, color: Colors.white),
+                        ),
+                        const SizedBox(width: 12),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text('Admin User', style: TextStyle(fontWeight: FontWeight.bold, color: isDarkMode ? AppColors.darkText : AppColors.textDark)),
+                            Text('admin@nexcentauri.ai', style: TextStyle(fontSize: 12, color: isDarkMode ? AppColors.darkTextGrey : AppColors.textGrey)),
+                          ],
+                        ),
+                        const Spacer(),
+                        const Icon(Icons.chevron_right_rounded, color: AppColors.textGrey, size: 20),
                       ],
                     ),
-                    const Spacer(),
-                    IconButton(
-                      icon: const Icon(Icons.logout_rounded, color: AppColors.errorRed),
-                      onPressed: () {},
-                    ),
-                  ],
+                  ),
                 ),
               ),
             ],
