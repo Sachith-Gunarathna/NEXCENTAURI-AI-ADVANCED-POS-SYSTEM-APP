@@ -26,8 +26,10 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -36,30 +38,30 @@ class _SplashScreenState extends State<SplashScreen> {
               width: 120,
               height: 120,
               decoration: BoxDecoration(
-                color: AppColors.primaryGreen.withAlpha(30),
+                color: AppColors.primaryPurple.withAlpha(30),
                 shape: BoxShape.circle,
               ),
               child: const Icon(
                 Icons.point_of_sale,
                 size: 60,
-                color: AppColors.primaryGreen,
+                color: AppColors.primaryPurple,
               ),
             ),
             const SizedBox(height: 24),
-            const Text(
+            Text(
               'Nexcentauri AI',
               style: TextStyle(
                 fontSize: 28,
                 fontWeight: FontWeight.bold,
-                color: AppColors.textDark,
+                color: isDarkMode ? AppColors.darkText : AppColors.textDark,
                 letterSpacing: 1.2,
               ),
             ),
-            const Text(
+            Text(
               'ADVANCED POS SYSTEM',
               style: TextStyle(
                 fontSize: 12,
-                color: AppColors.textGrey,
+                color: isDarkMode ? AppColors.darkTextGrey : AppColors.textGrey,
                 letterSpacing: 2,
               ),
             ),

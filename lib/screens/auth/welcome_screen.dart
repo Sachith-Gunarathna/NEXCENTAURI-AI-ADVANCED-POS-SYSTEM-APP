@@ -7,8 +7,15 @@ class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({super.key});
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    final screenHeight = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
+
+    final logoSize = screenWidth * 0.6; // 60% of screen width
+    final logoHeight = screenHeight * 0.1;
+    
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 40.0),
@@ -16,26 +23,33 @@ class WelcomeScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const Spacer(),
-              // Logo Placeholder
-              Container(
-                width: 120,
-                height: 120,
-                decoration: BoxDecoration(
-                  color: AppColors.primaryGreen.withAlpha(51),
-                  shape: BoxShape.circle,
-                ),
-                child: const Icon(Icons.point_of_sale, size: 60, color: AppColors.primaryGreen),
+              // Logo
+              Image.asset(
+                isDarkMode
+                    ? 'lib/resources/NEXCENTAURI_WHITE_LOGO.png'
+                    : 'lib/resources/NEXCENTAURI_LOGO.png',
+                width: logoSize,
+                height: logoHeight,
+                fit: BoxFit.contain,
               ),
               const SizedBox(height: 40),
-              const Text(
+              Text(
                 'Nexcentauri AI POS',
-                style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold, color: AppColors.primaryGreen),
+                style: TextStyle(
+                  fontSize: 32, 
+                  fontWeight: FontWeight.bold, 
+                  color: isDarkMode ? AppColors.darkText : AppColors.primaryPurple
+                ),
               ),
               const SizedBox(height: 16),
-              const Text(
+              Text(
                 'Manage your business anywhere,\nanytime with smart analytics.',
                 textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 16, color: AppColors.textGrey, height: 1.5),
+                style: TextStyle(
+                  fontSize: 16, 
+                  color: isDarkMode ? AppColors.darkTextGrey : AppColors.textGrey, 
+                  height: 1.5
+                ),
               ),
               const Spacer(),
               // Login Button
@@ -44,7 +58,7 @@ class WelcomeScreen extends StatelessWidget {
                 height: 56,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primaryGreen,
+                    backgroundColor: isDarkMode ? AppColors.primaryPurple : AppColors.textDark,
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
                     elevation: 0,
                   ),
@@ -59,11 +73,21 @@ class WelcomeScreen extends StatelessWidget {
                 height: 56,
                 child: OutlinedButton(
                   style: OutlinedButton.styleFrom(
-                    side: const BorderSide(color: AppColors.primaryGreen, width: 2),
+                    side: BorderSide(
+                      color: isDarkMode ? AppColors.primaryPurple : AppColors.textDark, 
+                      width: 2
+                    ),
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
                   ),
                   onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => SignUpScreen())),
-                  child: const Text('Create Account', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: AppColors.primaryGreen)),
+                  child: Text(
+                    'Create Account', 
+                    style: TextStyle(
+                      fontSize: 18, 
+                      fontWeight: FontWeight.bold, 
+                      color: isDarkMode ? AppColors.primaryPurple : AppColors.textDark
+                    )
+                  ),
                 ),
               ),
               const SizedBox(height: 20),

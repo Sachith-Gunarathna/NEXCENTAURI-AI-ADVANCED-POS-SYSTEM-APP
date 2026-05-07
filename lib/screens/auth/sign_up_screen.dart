@@ -14,7 +14,7 @@ class SignUpScreen extends StatelessWidget {
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios, color: AppColors.primaryGreen),
+          icon: const Icon(Icons.arrow_back_ios, color: AppColors.textDark),
           onPressed: () => Navigator.pop(context),
         ),
       ),
@@ -26,7 +26,7 @@ class SignUpScreen extends StatelessWidget {
             children: [
               const Text(
                 'Create Account',
-                style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold, color: AppColors.primaryGreen),
+                style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold, color: AppColors.textDark),
               ),
               const SizedBox(height: 10),
               const Text(
@@ -47,7 +47,7 @@ class SignUpScreen extends StatelessWidget {
                 height: 56,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primaryGreen,
+                    backgroundColor: AppColors.textDark,
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
                   ),
                   onPressed: () => Navigator.pushReplacement(
@@ -64,7 +64,7 @@ class SignUpScreen extends StatelessWidget {
                   const Text('Already have an account? ', style: TextStyle(color: AppColors.textGrey)),
                   GestureDetector(
                     onTap: () => Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const SignInScreen())),
-                    child: const Text('Log In', style: TextStyle(color: AppColors.primaryGreen, fontWeight: FontWeight.bold)),
+                    child: const Text('Log In', style: TextStyle(color: AppColors.textDark, fontWeight: FontWeight.bold)),
                   ),
                 ],
               )
@@ -91,7 +91,7 @@ class SignUpScreen extends StatelessWidget {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
-          borderSide: const BorderSide(color: AppColors.primaryGreen, width: 2),
+          borderSide: const BorderSide(color: AppColors.textDark, width: 2),
         ),
       ),
     );

@@ -29,46 +29,203 @@ class _MainShellState extends State<MainShell> {
     });
   }
 
+  Widget _buildDrawerItem(int index, IconData icon, String title) {
+    final isSelected = _selectedIndex == index;
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+      child: ListTile(
+        selected: isSelected,
+        selectedTileColor: AppColors.primaryPurple.withAlpha(25),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        leading: Icon(
+          icon,
+          color: isSelected ? AppColors.primaryPurple : (isDarkMode ? AppColors.darkTextGrey : AppColors.textGrey),
+        ),
+        title: Text(
+          title,
+          style: TextStyle(
+            color: isSelected ? AppColors.primaryPurple : (isDarkMode ? AppColors.darkText : AppColors.textDark),
+            fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+          ),
+        ),
+        onTap: () {
+          if (index != -1) {
+            _onItemTapped(index);
+            Navigator.pop(context); // Close drawer
+          }
+        },
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    final logoAsset = isDarkMode
+        ? 'lib/resources/NEXCENTAURI_WHITE_LOGO.png'
+        : 'lib/resources/NEXCENTAURI_LOGO.png';
+
     return AnnotatedRegion<SystemUiOverlayStyle>(
-      value: const SystemUiOverlayStyle(
+      value: SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
-        statusBarIconBrightness: Brightness.dark,
-        statusBarBrightness: Brightness.light,
+        statusBarIconBrightness: isDarkMode ? Brightness.light : Brightness.dark,
+        statusBarBrightness: isDarkMode ? Brightness.dark : Brightness.light,
       ),
       child: Scaffold(
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          leading: Builder(
+            builder: (context) => IconButton(
+              icon: Icon(Icons.menu_rounded, color: isDarkMode ? AppColors.darkText : AppColors.textDark),
+              onPressed: () => Scaffold.of(context).openDrawer(),
+            ),
+          ),
+          title: Text(
+            _selectedIndex == 0 ? 'Dashboard' : 
+            _selectedIndex == 1 ? 'Analytics' : 
+            _selectedIndex == 2 ? 'Inventory' : 'Staff',
+            style: TextStyle(color: isDarkMode ? AppColors.darkText : AppColors.textDark, fontWeight: FontWeight.bold),
+          ),
+          actions: [
+            IconButton(
+              icon: Icon(Icons.notifications_none_rounded, color: isDarkMode ? AppColors.darkText : AppColors.textDark),
+              onPressed: () {},
+            ),
+            const SizedBox(width: 8),
+          ],
+        ),
+        drawer: Drawer(
+          backgroundColor: Theme.of(context).cardColor,
+          child: Column(
+            children: [
+              DrawerHeader(
+                decoration: BoxDecoration(
+                  color: isDarkMode ? AppColors.darkBackground : AppColors.background,
+                ),
+                child: Center(
+                  child: Image.asset(
+                    logoAsset,
+                    width: 150,
+                    fit: BoxFit.contain,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 8),
+              _buildDrawerItem(0, Icons.dashboard_rounded, 'Dashboard'),
+              _buildDrawerItem(1, Icons.bar_chart_rounded, 'Analytics'),
+              _buildDrawerItem(2, Icons.inventory_2_rounded, 'Inventory'),
+              _buildDrawerItem(3, Icons.people_alt_rounded, 'Staff Management'),
+              const Divider(indent: 20, endIndent: 20),
+              _buildDrawerItem(-1, Icons.settings_rounded, 'Settings'),
+              _buildDrawerItem(-1, Icons.help_outline_rounded, 'Support'),
+              const Spacer(),
+              Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Row(
+                  children: [
+                    const CircleAvatar(
+                      backgroundColor: AppColors.primaryPurple,
+                      child: Icon(Icons.person, color: Colors.white),
+                    ),
+                    const SizedBox(width: 12),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text('Admin User', style: TextStyle(fontWeight: FontWeight.bold, color: isDarkMode ? AppColors.darkText : AppColors.textDark)),
+                        Text('admin@nexcentauri.ai', style: TextStyle(fontSize: 12, color: isDarkMode ? AppColors.darkTextGrey : AppColors.textGrey)),
+                      ],
+                    ),
+                    const Spacer(),
+                    IconButton(
+                      icon: const Icon(Icons.logout_rounded, color: AppColors.errorRed),
+                      onPressed: () {},
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
         body: IndexedStack(
           index: _selectedIndex,
           children: _screens,
         ),
-        bottomNavigationBar: BottomNavigationBar(
-          currentIndex: _selectedIndex,
-          onTap: _onItemTapped,
-          type: BottomNavigationBarType.fixed,
-          backgroundColor: AppColors.surface,
-          selectedItemColor: AppColors.primaryPurple,
-          unselectedItemColor: AppColors.textGrey,
-          showSelectedLabels: true,
-          showUnselectedLabels: true,
-          items: const [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.dashboard_rounded),
-              label: 'Home',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.bar_chart_rounded),
-              label: 'Analytics',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.inventory_2_rounded),
-              label: 'Inventory',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.people_alt_rounded),
-              label: 'Staff',
-            ),
-          ],
+        bottomNavigationBar: Container(
+          decoration: BoxDecoration(
+            color: Theme.of(context).cardColor,
+            boxShadow: [
+              BoxShadow(
+                color: isDarkMode ? Colors.black.withAlpha(76) : Colors.black.withAlpha(20),
+                blurRadius: 20,
+                offset: const Offset(0, -4),
+              ),
+            ],
+          ),
+          child: BottomNavigationBar(
+            currentIndex: _selectedIndex,
+            onTap: _onItemTapped,
+            type: BottomNavigationBarType.fixed,
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+            selectedItemColor: AppColors.primaryPurple,
+            unselectedItemColor: isDarkMode ? AppColors.darkTextGrey.withAlpha(127) : AppColors.textGrey.withAlpha(127),
+            showSelectedLabels: true,
+            showUnselectedLabels: true,
+            selectedFontSize: 12,
+            unselectedFontSize: 12,
+            selectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold),
+            items: const [
+              BottomNavigationBarItem(
+                icon: Padding(
+                  padding: EdgeInsets.only(bottom: 4),
+                  child: Icon(Icons.dashboard_rounded, size: 26),
+                ),
+                activeIcon: Padding(
+                  padding: EdgeInsets.only(bottom: 4),
+                  child: Icon(Icons.dashboard_rounded, size: 28),
+                ),
+                label: 'Home',
+              ),
+              BottomNavigationBarItem(
+                icon: Padding(
+                  padding: EdgeInsets.only(bottom: 4),
+                  child: Icon(Icons.bar_chart_rounded, size: 26),
+                ),
+                activeIcon: Padding(
+                  padding: EdgeInsets.only(bottom: 4),
+                  child: Icon(Icons.bar_chart_rounded, size: 28),
+                ),
+                label: 'Analytics',
+              ),
+              BottomNavigationBarItem(
+                icon: Padding(
+                  padding: EdgeInsets.only(bottom: 4),
+                  child: Icon(Icons.inventory_2_rounded, size: 26),
+                ),
+                activeIcon: Padding(
+                  padding: EdgeInsets.only(bottom: 4),
+                  child: Icon(Icons.inventory_2_rounded, size: 28),
+                ),
+                label: 'Inventory',
+              ),
+              BottomNavigationBarItem(
+                icon: Padding(
+                  padding: EdgeInsets.only(bottom: 4),
+                  child: Icon(Icons.people_alt_rounded, size: 26),
+                ),
+                activeIcon: Padding(
+                  padding: EdgeInsets.only(bottom: 4),
+                  child: Icon(Icons.people_alt_rounded, size: 28),
+                ),
+                label: 'Staff',
+              ),
+            ],
+          ),
         ),
       ),
     );

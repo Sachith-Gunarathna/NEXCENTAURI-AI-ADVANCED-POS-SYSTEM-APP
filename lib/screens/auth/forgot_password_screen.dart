@@ -12,7 +12,7 @@ class ForgotPasswordScreen extends StatelessWidget {
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios, color: AppColors.primaryGreen),
+          icon: const Icon(Icons.arrow_back_ios, color: AppColors.textDark),
           onPressed: () => Navigator.pop(context),
         ),
       ),
@@ -27,7 +27,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 32,
                   fontWeight: FontWeight.bold,
-                  color: AppColors.primaryGreen,
+                  color: AppColors.textDark,
                 ),
               ),
               const SizedBox(height: 10),
@@ -49,7 +49,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(16),
-                    borderSide: const BorderSide(color: AppColors.primaryGreen, width: 2),
+                    borderSide: const BorderSide(color: AppColors.textDark, width: 2),
                   ),
                 ),
               ),
@@ -59,7 +59,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                 height: 56,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primaryGreen,
+                    backgroundColor: AppColors.textDark,
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
                   ),
                   onPressed: () {

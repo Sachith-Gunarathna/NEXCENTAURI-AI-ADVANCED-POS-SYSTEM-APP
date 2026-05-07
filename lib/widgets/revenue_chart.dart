@@ -7,14 +7,16 @@ class RevenueProfitChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(24),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withAlpha(5),
+            color: isDarkMode ? Colors.black.withAlpha(50) : Colors.black.withAlpha(5),
             blurRadius: 20,
             offset: const Offset(0, 10),
           ),
@@ -26,7 +28,7 @@ class RevenueProfitChart extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Column(
+              Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
@@ -34,19 +36,22 @@ class RevenueProfitChart extends StatelessWidget {
                     style: TextStyle(
                       fontWeight: FontWeight.w800, 
                       fontSize: 16,
-                      color: AppColors.textDark,
+                      color: isDarkMode ? AppColors.darkText : AppColors.textDark,
                     ),
                   ),
                   Text(
                     "Monthly performance overview",
-                    style: TextStyle(fontSize: 11, color: AppColors.textGrey),
+                    style: TextStyle(
+                      fontSize: 11, 
+                      color: isDarkMode ? AppColors.darkTextGrey : AppColors.textGrey
+                    ),
                   ),
                 ],
               ),
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                 decoration: BoxDecoration(
-                  color: AppColors.primaryPurple.withAlpha(15),
+                  color: AppColors.primaryPurple.withAlpha(25),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: const Text(
@@ -70,7 +75,7 @@ class RevenueProfitChart extends StatelessWidget {
                   drawVerticalLine: false,
                   horizontalInterval: 2000,
                   getDrawingHorizontalLine: (value) => FlLine(
-                    color: Colors.grey.withAlpha(15),
+                    color: isDarkMode ? Colors.white.withAlpha(15) : Colors.black.withAlpha(15),
                     strokeWidth: 1,
                   ),
                 ),
@@ -90,7 +95,11 @@ class RevenueProfitChart extends StatelessWidget {
                           space: 12,
                           child: Text(
                             'Day ${value.toInt()}', 
-                            style: const TextStyle(color: AppColors.textGrey, fontSize: 9, fontWeight: FontWeight.bold)
+                            style: TextStyle(
+                              color: isDarkMode ? AppColors.darkTextGrey : AppColors.textGrey, 
+                              fontSize: 9, 
+                              fontWeight: FontWeight.bold
+                            )
                           ),
                         );
                       },
@@ -102,13 +111,34 @@ class RevenueProfitChart extends StatelessWidget {
                       interval: 2000,
                       getTitlesWidget: (value, meta) => Text(
                         '${(value / 1000).toInt()}k',
-                        style: const TextStyle(color: AppColors.textGrey, fontSize: 9, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                          color: isDarkMode ? AppColors.darkTextGrey : AppColors.textGrey, 
+                          fontSize: 9, 
+                          fontWeight: FontWeight.bold
+                        ),
                       ),
                       reservedSize: 28,
                     ),
                   ),
                 ),
                 borderData: FlBorderData(show: false),
+                lineTouchData: LineTouchData(
+                  touchTooltipData: LineTouchTooltipData(
+                    getTooltipColor: (touchedSpot) => isDarkMode ? AppColors.darkSurface : AppColors.surface,
+                    getTooltipItems: (touchedSpots) {
+                      return touchedSpots.map((spot) {
+                        return LineTooltipItem(
+                          'Rs. ${spot.y.toInt()}',
+                          TextStyle(
+                            color: isDarkMode ? AppColors.darkText : AppColors.textDark,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 12,
+                          ),
+                        );
+                      }).toList();
+                    },
+                  ),
+                ),
                 minX: 0,
                 maxX: 30,
                 minY: 0,
@@ -121,15 +151,23 @@ class RevenueProfitChart extends StatelessWidget {
                     ],
                     isCurved: true,
                     curveSmoothness: 0.4,
-                    gradient: const LinearGradient(colors: AppColors.purpleGradient),
+                    color: AppColors.primaryPurple,
                     barWidth: 4,
                     isStrokeCapRound: true,
-                    dotData: const FlDotData(show: false),
+                    dotData: FlDotData(
+                      show: true,
+                      getDotPainter: (spot, percent, barData, index) => FlDotCirclePainter(
+                        radius: 4,
+                        color: AppColors.primaryPurple,
+                        strokeWidth: 2,
+                        strokeColor: isDarkMode ? AppColors.darkSurface : AppColors.surface,
+                      ),
+                    ),
                     belowBarData: BarAreaData(
                       show: true,
                       gradient: LinearGradient(
                         colors: [
-                          AppColors.primaryPurple.withAlpha(50),
+                          AppColors.primaryPurple.withAlpha(60),
                           AppColors.primaryPurple.withAlpha(0),
                         ],
                         begin: Alignment.topCenter,

@@ -11,8 +11,10 @@ class DashboardScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -30,7 +32,7 @@ class DashboardScreen extends StatelessWidget {
                 crossAxisSpacing: 16,
                 mainAxisSpacing: 16,
                 childAspectRatio: 1.1,
-                children: const [
+                children: [
                   PosStatCard(
                     title: "Total Revenue",
                     value: "Rs. 48,290",
@@ -42,7 +44,7 @@ class DashboardScreen extends StatelessWidget {
                     title: "Net Profit",
                     value: "Rs. 12,400",
                     icon: Icons.analytics_rounded,
-                    gradient: AppColors.greenGradient,
+                    gradient: isDarkMode ? AppColors.darkGradient : [AppColors.successGreen.withAlpha(204), AppColors.successGreen],
                     trend: "+8.2%",
                   ),
                 ],

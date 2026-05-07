@@ -9,13 +9,15 @@ class BalanceCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
+        Text(
           'Total Balance',
           style: TextStyle(
-            color: AppColors.textGrey,
+            color: isDarkMode ? AppColors.darkTextGrey : AppColors.textGrey,
             fontSize: 16,
           ),
         ),
@@ -24,8 +26,8 @@ class BalanceCard extends StatelessWidget {
           children: [
             Text(
               '\$${balance.toStringAsFixed(2).replaceAllMapped(RegExp(r"(\d{1,3})(?=(\d{3})+(?!\d))"), (Match m) => "${m[1]},")}',
-              style: const TextStyle(
-                color: AppColors.textDark,
+              style: TextStyle(
+                color: isDarkMode ? AppColors.darkText : AppColors.textDark,
                 fontSize: 32,
                 fontWeight: FontWeight.bold,
               ),
@@ -38,7 +40,7 @@ class BalanceCard extends StatelessWidget {
             Text(
               '+\$${growth.toStringAsFixed(2)}',
               style: const TextStyle(
-                color: AppColors.primaryGreen,
+                color: AppColors.successGreen,
                 fontSize: 14,
                 fontWeight: FontWeight.w600,
               ),
@@ -47,7 +49,7 @@ class BalanceCard extends StatelessWidget {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
               decoration: BoxDecoration(
-                color: AppColors.primaryGreen.withAlpha(25),
+                color: AppColors.successGreen.withAlpha(25),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: const Row(
@@ -55,12 +57,12 @@ class BalanceCard extends StatelessWidget {
                   Text(
                     '+46%',
                     style: TextStyle(
-                      color: AppColors.primaryGreen,
+                      color: AppColors.successGreen,
                       fontSize: 12,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  Icon(Icons.arrow_outward, size: 12, color: AppColors.primaryGreen),
+                  Icon(Icons.arrow_outward, size: 12, color: AppColors.successGreen),
                 ],
               ),
             ),

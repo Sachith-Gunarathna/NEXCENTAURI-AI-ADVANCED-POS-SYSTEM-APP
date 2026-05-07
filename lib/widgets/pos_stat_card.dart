@@ -19,14 +19,16 @@ class PosStatCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: gradient.last.withAlpha(20),
+            color: isDarkMode ? Colors.black.withAlpha(76) : gradient.last.withAlpha(20),
             blurRadius: 15,
             offset: const Offset(0, 8),
           ),
@@ -50,13 +52,13 @@ class PosStatCard extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                 decoration: BoxDecoration(
-                  color: AppColors.primaryGreen.withAlpha(20),
+                  color: AppColors.successGreen.withAlpha(20),
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Text(
                   trend,
                   style: const TextStyle(
-                    color: AppColors.primaryGreen,
+                    color: AppColors.successGreen,
                     fontSize: 10,
                     fontWeight: FontWeight.bold,
                   ),
@@ -71,19 +73,19 @@ class PosStatCard extends StatelessWidget {
                 fit: BoxFit.scaleDown,
                 child: Text(
                   value,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.w800,
-                    color: AppColors.textDark,
+                    color: isDarkMode ? AppColors.darkText : AppColors.textDark,
                   ),
                 ),
               ),
               const SizedBox(height: 2),
               Text(
                 title,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 11,
-                  color: AppColors.textGrey,
+                  color: isDarkMode ? AppColors.darkTextGrey : AppColors.textGrey,
                   fontWeight: FontWeight.w500,
                 ),
                 maxLines: 1,

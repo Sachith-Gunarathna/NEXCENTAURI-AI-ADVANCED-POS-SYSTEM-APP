@@ -15,7 +15,7 @@ class SignInScreen extends StatelessWidget {
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios, color: AppColors.primaryGreen),
+          icon: const Icon(Icons.arrow_back_ios, color: AppColors.textDark),
           onPressed: () => Navigator.pop(context),
         ),
       ),
@@ -27,7 +27,7 @@ class SignInScreen extends StatelessWidget {
             children: [
               const Text(
                 'Welcome Back!',
-                style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold, color: AppColors.primaryGreen),
+                style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold, color: AppColors.textDark),
               ),
               const SizedBox(height: 10),
               const Text(
@@ -46,7 +46,7 @@ class SignInScreen extends StatelessWidget {
                     context,
                     MaterialPageRoute(builder: (_) => const ForgotPasswordScreen()),
                   ),
-                  child: const Text('Forgot Password?', style: TextStyle(color: AppColors.primaryGreen, fontWeight: FontWeight.bold)),
+                  child: const Text('Forgot Password?', style: TextStyle(color: AppColors.textDark, fontWeight: FontWeight.bold)),
                 ),
               ),
               const SizedBox(height: 30),
@@ -55,7 +55,7 @@ class SignInScreen extends StatelessWidget {
                 height: 56,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primaryGreen,
+                    backgroundColor: AppColors.textDark,
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
                   ),
                   onPressed: () => Navigator.pushReplacement(
@@ -72,7 +72,7 @@ class SignInScreen extends StatelessWidget {
                   const Text('Don\'t have an account? ', style: TextStyle(color: AppColors.textGrey)),
                   GestureDetector(
                     onTap: () => Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const SignUpScreen())),
-                    child: const Text('Sign Up', style: TextStyle(color: AppColors.primaryGreen, fontWeight: FontWeight.bold)),
+                    child: const Text('Sign Up', style: TextStyle(color: AppColors.textDark, fontWeight: FontWeight.bold)),
                   ),
                 ],
               )
@@ -99,7 +99,7 @@ class SignInScreen extends StatelessWidget {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
-          borderSide: const BorderSide(color: AppColors.primaryGreen, width: 2),
+          borderSide: const BorderSide(color: AppColors.textDark, width: 2),
         ),
       ),
     );

@@ -6,6 +6,8 @@ class QuickTransaction extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    
     final List<Map<String, String>> contacts = [
       {'name': 'Add', 'icon': 'add'},
       {'name': 'Raul', 'image': 'https://i.pravatar.cc/150?u=1'},
@@ -18,10 +20,10 @@ class QuickTransaction extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
+        Text(
           'Quick Transaction',
           style: TextStyle(
-            color: AppColors.textGrey,
+            color: isDarkMode ? AppColors.darkTextGrey : AppColors.textGrey,
             fontSize: 16,
             fontWeight: FontWeight.w500,
           ),
@@ -42,10 +44,13 @@ class QuickTransaction extends StatelessWidget {
                       width: 50,
                       height: 50,
                       decoration: BoxDecoration(
-                        border: Border.all(color: AppColors.primaryGreen, style: BorderStyle.solid),
+                        border: Border.all(
+                          color: isDarkMode ? AppColors.primaryPurple : AppColors.primaryPurple, 
+                          style: BorderStyle.solid
+                        ),
                         shape: BoxShape.circle,
                       ),
-                      child: const Icon(Icons.add, color: AppColors.primaryGreen),
+                      child: const Icon(Icons.add, color: AppColors.primaryPurple),
                     )
                   else
                     CircleAvatar(
@@ -55,7 +60,10 @@ class QuickTransaction extends StatelessWidget {
                   const SizedBox(height: 4),
                   Text(
                     contact['name']!,
-                    style: const TextStyle(fontSize: 12, color: AppColors.textGrey),
+                    style: TextStyle(
+                      fontSize: 12, 
+                      color: isDarkMode ? AppColors.darkTextGrey : AppColors.textGrey
+                    ),
                   ),
                 ],
               );
