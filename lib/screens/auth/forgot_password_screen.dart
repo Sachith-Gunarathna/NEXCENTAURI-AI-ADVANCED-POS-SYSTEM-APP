@@ -6,13 +6,15 @@ class ForgotPasswordScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios, color: AppColors.textDark),
+          icon: Icon(Icons.arrow_back_ios, color: isDarkMode ? AppColors.darkText : AppColors.textDark),
           onPressed: () => Navigator.pop(context),
         ),
       ),
@@ -22,34 +24,41 @@ class ForgotPasswordScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
+              Text(
                 'Reset Password',
                 style: TextStyle(
                   fontSize: 32,
                   fontWeight: FontWeight.bold,
-                  color: AppColors.textDark,
+                  color: isDarkMode ? AppColors.darkText : AppColors.textDark,
                 ),
               ),
               const SizedBox(height: 10),
-              const Text(
+              Text(
                 'Enter your email address and we will send you an OTP to reset your password.',
-                style: TextStyle(fontSize: 16, color: AppColors.textGrey),
+                style: TextStyle(
+                  fontSize: 16, 
+                  color: isDarkMode ? AppColors.darkTextGrey : AppColors.textGrey
+                ),
               ),
               const SizedBox(height: 40),
               TextField(
+                style: TextStyle(color: isDarkMode ? AppColors.darkText : AppColors.textDark),
                 decoration: InputDecoration(
                   labelText: 'Email Address',
-                  labelStyle: const TextStyle(color: AppColors.textGrey),
-                  prefixIcon: const Icon(Icons.email_outlined, color: AppColors.textGrey),
+                  labelStyle: TextStyle(color: isDarkMode ? AppColors.darkTextGrey : AppColors.textGrey),
+                  prefixIcon: Icon(Icons.email_outlined, color: isDarkMode ? AppColors.darkTextGrey : AppColors.textGrey),
                   filled: true,
-                  fillColor: AppColors.surface,
+                  fillColor: Theme.of(context).cardColor,
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(16),
                     borderSide: BorderSide.none,
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(16),
-                    borderSide: const BorderSide(color: AppColors.textDark, width: 2),
+                    borderSide: BorderSide(
+                      color: isDarkMode ? AppColors.primaryPurple : AppColors.textDark, 
+                      width: 2
+                    ),
                   ),
                 ),
               ),
@@ -59,7 +68,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                 height: 56,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.textDark,
+                    backgroundColor: isDarkMode ? AppColors.primaryPurple : AppColors.textDark,
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
                   ),
                   onPressed: () {

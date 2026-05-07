@@ -8,13 +8,15 @@ class SignUpScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios, color: AppColors.textDark),
+          icon: Icon(Icons.arrow_back_ios, color: isDarkMode ? AppColors.darkText : AppColors.textDark),
           onPressed: () => Navigator.pop(context),
         ),
       ),
@@ -24,30 +26,37 @@ class SignUpScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
+              Text(
                 'Create Account',
-                style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold, color: AppColors.textDark),
+                style: TextStyle(
+                  fontSize: 32, 
+                  fontWeight: FontWeight.bold, 
+                  color: isDarkMode ? AppColors.darkText : AppColors.textDark
+                ),
               ),
               const SizedBox(height: 10),
-              const Text(
+              Text(
                 'Set up your Nexcentauri POS dashboard.',
-                style: TextStyle(fontSize: 16, color: AppColors.textGrey),
+                style: TextStyle(
+                  fontSize: 16, 
+                  color: isDarkMode ? AppColors.darkTextGrey : AppColors.textGrey
+                ),
               ),
               const SizedBox(height: 40),
-              _buildTextField(label: 'Full Name', icon: Icons.person_outline),
+              _buildTextField(context, label: 'Full Name', icon: Icons.person_outline),
               const SizedBox(height: 20),
-              _buildTextField(label: 'Shop Name', icon: Icons.storefront_outlined),
+              _buildTextField(context, label: 'Shop Name', icon: Icons.storefront_outlined),
               const SizedBox(height: 20),
-              _buildTextField(label: 'Email Address', icon: Icons.email_outlined),
+              _buildTextField(context, label: 'Email Address', icon: Icons.email_outlined),
               const SizedBox(height: 20),
-              _buildTextField(label: 'Password', icon: Icons.lock_outline, isPassword: true),
+              _buildTextField(context, label: 'Password', icon: Icons.lock_outline, isPassword: true),
               const SizedBox(height: 40),
               SizedBox(
                 width: double.infinity,
                 height: 56,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.textDark,
+                    backgroundColor: isDarkMode ? AppColors.primaryPurple : AppColors.textDark,
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
                   ),
                   onPressed: () => Navigator.pushReplacement(
@@ -61,10 +70,19 @@ class SignUpScreen extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text('Already have an account? ', style: TextStyle(color: AppColors.textGrey)),
+                  Text(
+                    'Already have an account? ', 
+                    style: TextStyle(color: isDarkMode ? AppColors.darkTextGrey : AppColors.textGrey)
+                  ),
                   GestureDetector(
                     onTap: () => Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const SignInScreen())),
-                    child: const Text('Log In', style: TextStyle(color: AppColors.textDark, fontWeight: FontWeight.bold)),
+                    child: Text(
+                      'Log In', 
+                      style: TextStyle(
+                        color: isDarkMode ? AppColors.primaryPurple : AppColors.textDark, 
+                        fontWeight: FontWeight.bold
+                      )
+                    ),
                   ),
                 ],
               )
@@ -75,23 +93,29 @@ class SignUpScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildTextField({required String label, required IconData icon, bool isPassword = false}) {
+  Widget _buildTextField(BuildContext context, {required String label, required IconData icon, bool isPassword = false}) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    
     return TextField(
       obscureText: isPassword,
+      style: TextStyle(color: isDarkMode ? AppColors.darkText : AppColors.textDark),
       decoration: InputDecoration(
         labelText: label,
-        labelStyle: const TextStyle(color: AppColors.textGrey),
-        prefixIcon: Icon(icon, color: AppColors.textGrey),
-        suffixIcon: isPassword ? const Icon(Icons.visibility_off, color: AppColors.textGrey) : null,
+        labelStyle: TextStyle(color: isDarkMode ? AppColors.darkTextGrey : AppColors.textGrey),
+        prefixIcon: Icon(icon, color: isDarkMode ? AppColors.darkTextGrey : AppColors.textGrey),
+        suffixIcon: isPassword ? Icon(Icons.visibility_off, color: isDarkMode ? AppColors.darkTextGrey : AppColors.textGrey) : null,
         filled: true,
-        fillColor: AppColors.surface,
+        fillColor: Theme.of(context).cardColor,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
           borderSide: BorderSide.none,
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
-          borderSide: const BorderSide(color: AppColors.textDark, width: 2),
+          borderSide: BorderSide(
+            color: isDarkMode ? AppColors.primaryPurple : AppColors.textDark, 
+            width: 2
+          ),
         ),
       ),
     );
