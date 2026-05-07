@@ -1,8 +1,62 @@
 import 'package:flutter/material.dart';
 import '../../theme/colors.dart';
+import '../../utils/ui_utils.dart';
+import '../auth/welcome_screen.dart';
 
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
+
+  @override
+  State<ProfileScreen> createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
+  String userName = 'Admin User';
+  String userEmail = 'admin@nexcentauri.ai';
+
+  void _showEditProfileDialog() {
+    final TextEditingController nameController = TextEditingController(text: userName);
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        backgroundColor: Theme.of(context).cardColor,
+        title: Text('Edit Profile', style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? AppColors.darkText : AppColors.textDark)),
+        content: TextField(
+          controller: nameController,
+          decoration: const InputDecoration(labelText: 'Display Name'),
+          style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? AppColors.darkText : AppColors.textDark),
+        ),
+        actions: [
+          TextButton(onPressed: () => Navigator.pop(context), child: const Text('Cancel')),
+          ElevatedButton(
+            onPressed: () {
+              setState(() => userName = nameController.text);
+              Navigator.pop(context);
+              UIUtils.showPremiumSnackBar(context, 'Profile updated successfully');
+            },
+            style: ElevatedButton.styleFrom(backgroundColor: AppColors.primaryPurple),
+            child: const Text('Save', style: TextStyle(color: Colors.white)),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showLogoutDialog() {
+    UIUtils.showPremiumConfirmDialog(
+      context: context,
+      title: 'Confirm Logout',
+      message: 'Are you sure you want to log out of Nexcentauri POS?',
+      confirmText: 'Log Out',
+      isDanger: true,
+      onConfirm: () {
+        Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (context) => const WelcomeScreen()),
+          (route) => false,
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,20 +88,23 @@ class ProfileScreen extends StatelessWidget {
                       backgroundImage: NetworkImage('https://i.pravatar.cc/300?u=admin'),
                     ),
                   ),
-                  Container(
-                    padding: const EdgeInsets.all(8),
-                    decoration: const BoxDecoration(
-                      color: AppColors.primaryPurple,
-                      shape: BoxShape.circle,
+                  InkWell(
+                    onTap: _showEditProfileDialog,
+                    child: Container(
+                      padding: const EdgeInsets.all(8),
+                      decoration: const BoxDecoration(
+                        color: AppColors.primaryPurple,
+                        shape: BoxShape.circle,
+                      ),
+                      child: const Icon(Icons.edit, color: Colors.white, size: 20),
                     ),
-                    child: const Icon(Icons.edit, color: Colors.white, size: 20),
                   ),
                 ],
               ),
             ),
             const SizedBox(height: 16),
             Text(
-              'Admin User',
+              userName,
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
@@ -55,7 +112,7 @@ class ProfileScreen extends StatelessWidget {
               ),
             ),
             Text(
-              'admin@nexcentauri.ai',
+              userEmail,
               style: TextStyle(
                 fontSize: 14,
                 color: isDarkMode ? AppColors.darkTextGrey : AppColors.textGrey,
@@ -83,9 +140,9 @@ class ProfileScreen extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 24),
               child: Row(
                 children: [
-                  _buildStatItem(context, 'Total Sales', '1.2k'),
-                  _buildStatItem(context, 'Avg Rating', '4.9'),
-                  _buildStatItem(context, 'Shifts', '156'),
+                  _buildStatItem(context, 'Total Sales', '1.2k', 'Sales details coming soon'),
+                  _buildStatItem(context, 'Avg Rating', '4.9', 'Rating breakdown coming soon'),
+                  _buildStatItem(context, 'Shifts', '156', 'Shift history coming soon'),
                 ],
               ),
             ),
@@ -106,11 +163,11 @@ class ProfileScreen extends StatelessWidget {
               ),
               child: Column(
                 children: [
-                  _buildSettingTile(context, Icons.person_outline_rounded, 'Personal Info'),
-                  _buildSettingTile(context, Icons.security_rounded, 'Security & Privacy'),
-                  _buildSettingTile(context, Icons.notifications_none_rounded, 'Notifications'),
-                  _buildSettingTile(context, Icons.palette_outlined, 'Display Settings'),
-                  _buildSettingTile(context, Icons.help_outline_rounded, 'Help & Support', isLast: true),
+                  _buildSettingTile(context, Icons.person_outline_rounded, 'Personal Info', 'Personal settings coming soon'),
+                  _buildSettingTile(context, Icons.security_rounded, 'Security & Privacy', 'Security settings coming soon'),
+                  _buildSettingTile(context, Icons.notifications_none_rounded, 'Notifications', 'Notification settings coming soon'),
+                  _buildSettingTile(context, Icons.palette_outlined, 'Display Settings', 'Theme settings coming soon'),
+                  _buildSettingTile(context, Icons.help_outline_rounded, 'Help & Support', 'Help section coming soon', isLast: true),
                 ],
               ),
             ),
@@ -122,7 +179,7 @@ class ProfileScreen extends StatelessWidget {
                 width: double.infinity,
                 height: 56,
                 child: OutlinedButton(
-                  onPressed: () {},
+                  onPressed: _showLogoutDialog,
                   style: OutlinedButton.styleFrom(
                     side: const BorderSide(color: AppColors.errorRed, width: 2),
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
@@ -145,32 +202,35 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildStatItem(BuildContext context, String label, String value) {
+  Widget _buildStatItem(BuildContext context, String label, String value, String snackbarMsg) {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     return Expanded(
-      child: Column(
-        children: [
-          Text(
-            value,
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: isDarkMode ? AppColors.darkText : AppColors.textDark,
+      child: InkWell(
+        onTap: () => UIUtils.showPremiumSnackBar(context, snackbarMsg),
+        child: Column(
+          children: [
+            Text(
+              value,
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: isDarkMode ? AppColors.darkText : AppColors.textDark,
+              ),
             ),
-          ),
-          Text(
-            label,
-            style: TextStyle(
-              fontSize: 12,
-              color: isDarkMode ? AppColors.darkTextGrey : AppColors.textGrey,
+            Text(
+              label,
+              style: TextStyle(
+                fontSize: 12,
+                color: isDarkMode ? AppColors.darkTextGrey : AppColors.textGrey,
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
 
-  Widget _buildSettingTile(BuildContext context, IconData icon, String title, {bool isLast = false}) {
+  Widget _buildSettingTile(BuildContext context, IconData icon, String title, String snackbarMsg, {bool isLast = false}) {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     return Column(
       children: [
@@ -184,7 +244,7 @@ class ProfileScreen extends StatelessWidget {
             ),
           ),
           trailing: const Icon(Icons.chevron_right_rounded, color: AppColors.textGrey),
-          onTap: () {},
+          onTap: () => UIUtils.showPremiumSnackBar(context, snackbarMsg),
         ),
         if (!isLast)
           Divider(

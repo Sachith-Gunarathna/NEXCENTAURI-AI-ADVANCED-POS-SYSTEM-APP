@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../theme/colors.dart';
+import '../screens/main/notifications_screen.dart';
 
 class DashboardHeader extends StatelessWidget {
   final String userName;
@@ -39,17 +40,24 @@ class DashboardHeader extends StatelessWidget {
               children: [
                 IconButton(
                   icon: Icon(Icons.notifications_none_rounded, color: isDarkMode ? AppColors.darkText : AppColors.textDark),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const NotificationsScreen()),
+                    );
+                  },
                 ),
-                Positioned(
-                  right: 12,
-                  top: 12,
-                  child: Container(
-                    width: 8,
-                    height: 8,
-                    decoration: const BoxDecoration(
-                      color: AppColors.errorRed,
-                      shape: BoxShape.circle,
+                IgnorePointer(
+                  child: Positioned(
+                    right: 12,
+                    top: 12,
+                    child: Container(
+                      width: 8,
+                      height: 8,
+                      decoration: const BoxDecoration(
+                        color: AppColors.errorRed,
+                        shape: BoxShape.circle,
+                      ),
                     ),
                   ),
                 ),

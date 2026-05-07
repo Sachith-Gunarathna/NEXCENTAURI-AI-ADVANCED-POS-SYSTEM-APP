@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../../theme/colors.dart';
 import 'dashboard_screen.dart';
+import 'notifications_screen.dart';
 import '../analytics/analytics_screen.dart';
 import '../inventory/inventory_screen.dart';
 import '../staff/staff_screen.dart';
@@ -95,7 +96,12 @@ class _MainShellState extends State<MainShell> {
           actions: [
             IconButton(
               icon: Icon(Icons.notifications_none_rounded, color: isDarkMode ? AppColors.darkText : AppColors.textDark),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const NotificationsScreen()),
+                );
+              },
             ),
             const SizedBox(width: 8),
           ],
