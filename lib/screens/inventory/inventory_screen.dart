@@ -6,15 +6,24 @@ class InventoryScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
-        title: const Text('Inventory & Stock', style: TextStyle(color: AppColors.textDark, fontWeight: FontWeight.bold)),
-        backgroundColor: Colors.transparent,
-        elevation: 0,
+        title: Text(
+          'Inventory & Stock', 
+          style: TextStyle(
+            color: isDarkMode ? AppColors.darkText : AppColors.textDark, 
+            fontWeight: FontWeight.bold
+          )
+        ),
       ),
-      body: const Center(
-        child: Text('Inventory Content Coming Soon', style: TextStyle(color: AppColors.textGrey)),
+      body: Center(
+        child: Text(
+          'Inventory Content Coming Soon', 
+          style: TextStyle(color: isDarkMode ? AppColors.darkTextGrey : AppColors.textGrey)
+        ),
       ),
     );
   }

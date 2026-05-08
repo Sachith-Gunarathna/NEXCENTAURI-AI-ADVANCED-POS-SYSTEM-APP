@@ -6,11 +6,6 @@ import 'screens/auth/splash_screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-    statusBarColor: Colors.transparent,
-    statusBarIconBrightness: Brightness.dark,
-    statusBarBrightness: Brightness.light, 
-  ));
   runApp(const NexcentauriApp());
 }
 
@@ -88,6 +83,17 @@ class NexcentauriApp extends StatelessWidget {
           contentTextStyle: const TextStyle(color: AppColors.darkTextGrey, fontSize: 14, fontFamily: 'Inter'),
         ),
       ),
+      builder: (context, child) {
+        final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+        return AnnotatedRegion<SystemUiOverlayStyle>(
+          value: SystemUiOverlayStyle(
+            statusBarColor: Colors.transparent,
+            statusBarIconBrightness: isDarkMode ? Brightness.light : Brightness.dark,
+            statusBarBrightness: isDarkMode ? Brightness.dark : Brightness.light,
+          ),
+          child: child!,
+        );
+      },
       home: const SplashScreen(),
     );
   }
