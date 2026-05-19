@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../theme/colors.dart';
+import '../utils/ui_utils.dart';
 
 class WalletList extends StatelessWidget {
   const WalletList({super.key});
@@ -23,7 +24,7 @@ class WalletList extends StatelessWidget {
             ),
             IconButton(
               icon: const Icon(Icons.add_box_rounded, color: AppColors.primaryPurple),
-              onPressed: () {},
+              onPressed: () => UIUtils.showPremiumSnackBar(context, 'Add wallet feature coming soon'),
             ),
           ],
         ),

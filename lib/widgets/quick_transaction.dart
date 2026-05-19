@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../theme/colors.dart';
+import '../utils/ui_utils.dart';
 
 class QuickTransaction extends StatelessWidget {
   const QuickTransaction({super.key});
@@ -40,22 +41,30 @@ class QuickTransaction extends StatelessWidget {
               return Column(
                 children: [
                   if (contact.containsKey('icon'))
-                    Container(
-                      width: 50,
-                      height: 50,
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: isDarkMode ? AppColors.primaryPurple : AppColors.primaryPurple, 
-                          style: BorderStyle.solid
+                    InkWell(
+                      onTap: () => UIUtils.showPremiumSnackBar(context, 'Add contact feature coming soon'),
+                      borderRadius: BorderRadius.circular(25),
+                      child: Container(
+                        width: 50,
+                        height: 50,
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: isDarkMode ? AppColors.primaryPurple : AppColors.primaryPurple, 
+                            style: BorderStyle.solid
+                          ),
+                          shape: BoxShape.circle,
                         ),
-                        shape: BoxShape.circle,
+                        child: const Icon(Icons.add, color: AppColors.primaryPurple),
                       ),
-                      child: const Icon(Icons.add, color: AppColors.primaryPurple),
                     )
                   else
-                    CircleAvatar(
-                      radius: 25,
-                      backgroundImage: NetworkImage(contact['image']!),
+                    InkWell(
+                      onTap: () => UIUtils.showPremiumSnackBar(context, 'Transfer to ${contact['name']} coming soon'),
+                      borderRadius: BorderRadius.circular(25),
+                      child: CircleAvatar(
+                        radius: 25,
+                        backgroundImage: NetworkImage(contact['image']!),
+                      ),
                     ),
                   const SizedBox(height: 4),
                   Text(

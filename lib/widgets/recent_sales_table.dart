@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import '../theme/colors.dart';
 
 class RecentSalesTable extends StatelessWidget {
-  const RecentSalesTable({super.key});
+  final VoidCallback? onViewAll;
+  const RecentSalesTable({super.key, this.onViewAll});
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +38,7 @@ class RecentSalesTable extends StatelessWidget {
                 )
               ),
               TextButton(
-                onPressed: () {}, 
+                onPressed: onViewAll,
                 child: const Text(
                   "View All", 
                   style: TextStyle(

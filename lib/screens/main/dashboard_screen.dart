@@ -5,6 +5,7 @@ import '../../widgets/pos_stat_card.dart';
 import '../../widgets/payment_pie_chart.dart';
 import '../../widgets/revenue_chart.dart';
 import '../../widgets/recent_sales_table.dart';
+import '../transactions/transaction_history_screen.dart';
 
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({super.key});
@@ -54,7 +55,14 @@ class DashboardScreen extends StatelessWidget {
               const SizedBox(height: 24),
               const PaymentPieChart(),
               const SizedBox(height: 24),
-              const RecentSalesTable(),
+              RecentSalesTable(
+                onViewAll: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const TransactionHistoryScreen()),
+                  );
+                },
+              ),
               const SizedBox(height: 32),
             ],
           ),

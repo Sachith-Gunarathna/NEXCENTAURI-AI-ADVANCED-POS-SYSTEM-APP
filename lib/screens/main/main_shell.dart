@@ -5,6 +5,7 @@ import 'notifications_screen.dart';
 import '../analytics/analytics_screen.dart';
 import '../inventory/inventory_screen.dart';
 import '../staff/staff_screen.dart';
+import '../transactions/transaction_history_screen.dart';
 import '../settings/profile_screen.dart';
 
 class MainShell extends StatefulWidget {
@@ -119,6 +120,21 @@ class _MainShellState extends State<MainShell> {
             _buildDrawerItem(1, Icons.bar_chart_rounded, 'Analytics'),
             _buildDrawerItem(2, Icons.inventory_2_rounded, 'Inventory'),
             _buildDrawerItem(3, Icons.people_alt_rounded, 'Staff Management'),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+              child: ListTile(
+                leading: Icon(Icons.receipt_long_rounded, color: isDarkMode ? AppColors.darkTextGrey : AppColors.textGrey),
+                title: Text(
+                  'Transaction Ledger', 
+                  style: TextStyle(color: isDarkMode ? AppColors.darkText : AppColors.textDark)
+                ),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                onTap: () {
+                  Navigator.pop(context);
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => const TransactionHistoryScreen()));
+                },
+              ),
+            ),
             const Divider(indent: 20, endIndent: 20),
             _buildDrawerItem(-1, Icons.settings_rounded, 'Settings'),
             _buildDrawerItem(-1, Icons.help_outline_rounded, 'Support'),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../theme/colors.dart';
+import '../utils/ui_utils.dart';
 
 class ActionButtons extends StatelessWidget {
   const ActionButtons({super.key});
@@ -10,7 +11,7 @@ class ActionButtons extends StatelessWidget {
       children: [
         Expanded(
           child: ElevatedButton(
-            onPressed: () {},
+            onPressed: () => UIUtils.showPremiumSnackBar(context, 'Payment request feature coming soon'),
             style: ElevatedButton.styleFrom(
               backgroundColor: AppColors.primaryPurple,
               foregroundColor: Colors.white,
@@ -26,7 +27,7 @@ class ActionButtons extends StatelessWidget {
         const SizedBox(width: 16),
         Expanded(
           child: ElevatedButton(
-            onPressed: () {},
+            onPressed: () => UIUtils.showPremiumSnackBar(context, 'Money transfer feature coming soon'),
             style: ElevatedButton.styleFrom(
               backgroundColor: AppColors.primaryPurple,
               foregroundColor: Colors.white,
