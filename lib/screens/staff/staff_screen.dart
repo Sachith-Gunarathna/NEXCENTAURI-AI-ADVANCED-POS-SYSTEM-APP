@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../../theme/colors.dart';
-import '../../utils/ui_utils.dart';
 
 class StaffScreen extends StatefulWidget {
   const StaffScreen({super.key});
@@ -19,53 +18,40 @@ class _StaffScreenState extends State<StaffScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      appBar: AppBar(
-        title: const Text('Staff Management'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.person_add_rounded, color: AppColors.primaryPurple),
-            onPressed: () => UIUtils.showPremiumSnackBar(context, 'Add staff feature coming soon'),
-          ),
-          const SizedBox(width: 8),
-        ],
-      ),
-      body: Column(
-        children: [
-          // Summary Header
-          Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Container(
-              padding: const EdgeInsets.all(20),
-              decoration: BoxDecoration(
-                gradient: const LinearGradient(colors: AppColors.purpleGradient),
-                borderRadius: BorderRadius.circular(24),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  _buildSummaryItem('Total Staff', '12'),
-                  Container(width: 1, height: 40, color: Colors.white.withAlpha(50)),
-                  _buildSummaryItem('On Duty', '8'),
-                  Container(width: 1, height: 40, color: Colors.white.withAlpha(50)),
-                  _buildSummaryItem('Avg Rating', '4.8'),
-                ],
-              ),
+    return Column(
+      children: [
+        // Summary Header
+        Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Container(
+            padding: const EdgeInsets.all(20),
+            decoration: BoxDecoration(
+              gradient: const LinearGradient(colors: AppColors.purpleGradient),
+              borderRadius: BorderRadius.circular(24),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                _buildSummaryItem('Total Staff', '12'),
+                Container(width: 1, height: 40, color: Colors.white.withAlpha(50)),
+                _buildSummaryItem('On Duty', '8'),
+                Container(width: 1, height: 40, color: Colors.white.withAlpha(50)),
+                _buildSummaryItem('Avg Rating', '4.8'),
+              ],
             ),
           ),
-          // Staff List
-          Expanded(
-            child: ListView.builder(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              itemCount: _staff.length,
-              itemBuilder: (context, index) {
-                return _buildStaffCard(_staff[index]);
-              },
-            ),
+        ),
+        // Staff List
+        Expanded(
+          child: ListView.builder(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            itemCount: _staff.length,
+            itemBuilder: (context, index) {
+              return _buildStaffCard(_staff[index]);
+            },
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 

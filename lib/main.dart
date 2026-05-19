@@ -36,6 +36,11 @@ class NexcentauriApp extends StatelessWidget {
           elevation: 0,
           iconTheme: IconThemeData(color: AppColors.textDark),
           titleTextStyle: TextStyle(color: AppColors.textDark, fontSize: 20, fontWeight: FontWeight.bold),
+          systemOverlayStyle: SystemUiOverlayStyle(
+            statusBarColor: Colors.transparent,
+            statusBarIconBrightness: Brightness.dark, // Dark icons for Light mode
+            statusBarBrightness: Brightness.light,
+          ),
         ),
         snackBarTheme: SnackBarThemeData(
           behavior: SnackBarBehavior.floating,
@@ -68,6 +73,11 @@ class NexcentauriApp extends StatelessWidget {
           elevation: 0,
           iconTheme: IconThemeData(color: AppColors.darkText),
           titleTextStyle: TextStyle(color: AppColors.darkText, fontSize: 20, fontWeight: FontWeight.bold),
+          systemOverlayStyle: SystemUiOverlayStyle(
+            statusBarColor: Colors.transparent,
+            statusBarIconBrightness: Brightness.light, // Light icons for Dark mode
+            statusBarBrightness: Brightness.dark,
+          ),
         ),
         snackBarTheme: SnackBarThemeData(
           behavior: SnackBarBehavior.floating,

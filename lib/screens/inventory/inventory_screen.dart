@@ -1,6 +1,6 @@
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import '../../theme/colors.dart';
-import '../../utils/ui_utils.dart';
 
 class InventoryScreen extends StatefulWidget {
   const InventoryScreen({super.key});
@@ -25,20 +25,11 @@ class _InventoryScreenState extends State<InventoryScreen> {
   Widget build(BuildContext context) {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
-    return Scaffold(
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      appBar: AppBar(
-        title: const Text('Inventory & Stock'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.add_box_rounded, color: AppColors.primaryPurple),
-            onPressed: () => UIUtils.showPremiumSnackBar(context, 'Add product feature coming soon'),
-          ),
-          const SizedBox(width: 8),
-        ],
-      ),
-      body: Column(
+    return SingleChildScrollView(
+      child: Column(
         children: [
+          // Stock Distribution Graph
+          _buildStockGraph(context),
           // Search & Filters
           Padding(
             padding: const EdgeInsets.all(20.0),
@@ -107,19 +98,118 @@ class _InventoryScreenState extends State<InventoryScreen> {
           ),
           const SizedBox(height: 20),
           // Product List
+          ListView.builder(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            itemCount: _inventory.length,
+            itemBuilder: (context, index) {
+              final item = _inventory[index];
+              if (_selectedFilter != 'All' && item['category'] != _selectedFilter) return const SizedBox.shrink();
+              return _buildProductCard(item);
+            },
+          ),
+          const SizedBox(height: 32),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildStockGraph(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
+    return Container(
+      margin: const EdgeInsets.all(20),
+      padding: const EdgeInsets.all(20),
+      height: 220,
+      decoration: BoxDecoration(
+        color: Theme.of(context).cardColor,
+        borderRadius: BorderRadius.circular(24),
+        boxShadow: [
+          BoxShadow(
+            color: isDarkMode ? Colors.black.withAlpha(50) : Colors.black.withAlpha(5),
+            blurRadius: 20,
+            offset: const Offset(0, 10),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            "STOCK LEVELS BY CATEGORY",
+            style: TextStyle(
+              fontSize: 10,
+              fontWeight: FontWeight.w900,
+              color: isDarkMode ? AppColors.darkTextGrey : AppColors.textGrey,
+              letterSpacing: 1.2,
+            ),
+          ),
+          const SizedBox(height: 24),
           Expanded(
-            child: ListView.builder(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              itemCount: _inventory.length,
-              itemBuilder: (context, index) {
-                final item = _inventory[index];
-                if (_selectedFilter != 'All' && item['category'] != _selectedFilter) return const SizedBox.shrink();
-                return _buildProductCard(item);
-              },
+            child: BarChart(
+              BarChartData(
+                alignment: BarChartAlignment.spaceAround,
+                maxY: 30,
+                barTouchData: BarTouchData(enabled: false),
+                titlesData: FlTitlesData(
+                  show: true,
+                  bottomTitles: AxisTitles(
+                    sideTitles: SideTitles(
+                      showTitles: true,
+                      getTitlesWidget: (value, meta) {
+                        const style = TextStyle(fontSize: 10, fontWeight: FontWeight.bold);
+                        String text = '';
+                        switch (value.toInt()) {
+                          case 0: text = 'Bev'; break;
+                          case 1: text = 'Bak'; break;
+                          case 2: text = 'Dai'; break;
+                          case 3: text = 'Sna'; break;
+                        }
+                        return SideTitleWidget(
+                          meta: meta,
+                          space: 8,
+                          child: Text(text, style: style.copyWith(color: isDarkMode ? AppColors.darkTextGrey : AppColors.textGrey)),
+                        );
+                      },
+                    ),
+                  ),
+                  leftTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                  topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                  rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                ),
+                gridData: const FlGridData(show: false),
+                borderData: FlBorderData(show: false),
+                barGroups: [
+                  _makeBarGroup(0, 16, AppColors.primaryPurple),
+                  _makeBarGroup(1, 25, AppColors.successGreen),
+                  _makeBarGroup(2, 8, AppColors.accentOrange),
+                  _makeBarGroup(3, 18, Colors.blue),
+                ],
+              ),
             ),
           ),
         ],
       ),
+    );
+  }
+
+  BarChartGroupData _makeBarGroup(int x, double y, Color color) {
+    return BarChartGroupData(
+      x: x,
+      barRods: [
+        BarChartRodData(
+          toY: y,
+          color: color,
+          width: 16,
+          borderRadius: const BorderRadius.vertical(top: Radius.circular(6)),
+          backDrawRodData: BackgroundBarChartRodData(
+            show: true,
+            toY: 30,
+            color: color.withAlpha(20),
+          ),
+        ),
+      ],
     );
   }
 
@@ -174,7 +264,18 @@ class _InventoryScreenState extends State<InventoryScreen> {
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(12),
-            child: Image.network(item['image'], width: 60, height: 60, fit: BoxFit.cover),
+            child: Image.network(
+              item['image'], 
+              width: 60, 
+              height: 60, 
+              fit: BoxFit.cover,
+              errorBuilder: (context, error, stackTrace) => Container(
+                width: 60,
+                height: 60,
+                color: isDarkMode ? AppColors.darkSurface : AppColors.background,
+                child: const Icon(Icons.image_not_supported_rounded, color: AppColors.textGrey, size: 20),
+              ),
+            ),
           ),
           const SizedBox(width: 16),
           Expanded(

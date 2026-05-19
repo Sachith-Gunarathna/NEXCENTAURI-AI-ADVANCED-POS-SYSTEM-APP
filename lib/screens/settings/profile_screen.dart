@@ -12,7 +12,7 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   String userName = 'Admin User';
-  String userEmail = 'admin@nexcentauri.ai';
+  String userEmail = 'admin@nexcentauri.com';
 
   void _showEditProfileDialog() {
     final TextEditingController nameController = TextEditingController(text: userName);
@@ -85,7 +85,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                     child: const CircleAvatar(
                       radius: 60,
-                      backgroundImage: NetworkImage('https://i.pravatar.cc/300?u=admin'),
+                      backgroundImage: NetworkImage('https://i.ibb.co/rRbc0px8/Whats-App-Image-2026-05-05-at-1-01-24-PM.jpg'),
                     ),
                   ),
                   InkWell(
