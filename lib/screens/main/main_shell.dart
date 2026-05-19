@@ -7,6 +7,7 @@ import '../inventory/inventory_screen.dart';
 import '../staff/staff_screen.dart';
 import '../transactions/transaction_history_screen.dart';
 import '../settings/profile_screen.dart';
+import 'sales_terminal_screen.dart';
 
 class MainShell extends StatefulWidget {
   const MainShell({super.key});
@@ -176,6 +177,20 @@ class _MainShellState extends State<MainShell> {
         index: _selectedIndex,
         children: _screens,
       ),
+      floatingActionButton: _selectedIndex == 0
+          ? FloatingActionButton.extended(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const SalesTerminalScreen()),
+                );
+              },
+              backgroundColor: AppColors.primaryPurple,
+              icon: const Icon(Icons.add_shopping_cart_rounded, color: Colors.white),
+              label: const Text('New Sale', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
+              elevation: 4,
+            )
+          : null,
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
           color: Theme.of(context).cardColor,

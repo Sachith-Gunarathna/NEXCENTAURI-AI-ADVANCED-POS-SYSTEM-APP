@@ -25,12 +25,16 @@ class PosStatCard extends StatelessWidget {
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: Theme.of(context).cardColor,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(28),
+        border: Border.all(
+          color: isDarkMode ? Colors.white.withAlpha(15) : Colors.black.withAlpha(10),
+          width: 1,
+        ),
         boxShadow: [
           BoxShadow(
             color: isDarkMode ? Colors.black.withAlpha(76) : gradient.last.withAlpha(20),
-            blurRadius: 15,
-            offset: const Offset(0, 8),
+            blurRadius: 20,
+            offset: const Offset(0, 10),
           ),
         ],
       ),
